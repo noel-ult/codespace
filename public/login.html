@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="Log in to SnippetVault — your personal code snippet manager." />
+  <title>Login — SnippetVault</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <!-- Auth page layout: centered card on gradient background -->
+  <div class="auth-wrapper">
+    <div class="auth-card">
+      <!-- Brand -->
+      <div class="auth-header">
+        <div class="brand-logo">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="url(#brandGrad)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <defs><linearGradient id="brandGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#10b981"/><stop offset="100%" stop-color="#06b6d4"/></linearGradient></defs>
+            <polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>
+          </svg>
+        </div>
+        <h1 class="auth-title">Welcome Back</h1>
+        <p class="auth-subtitle">Log in to access your code snippets</p>
+      </div>
+
+      <!-- Error message (hidden by default) -->
+      <div id="auth-error" class="auth-error hidden"></div>
+
+      <!-- Login form -->
+      <form id="login-form">
+        <label class="auth-field">
+          <span class="field-label">Email</span>
+          <input id="auth-email" type="email" placeholder="you@example.com" required />
+        </label>
+
+        <label class="auth-field">
+          <span class="field-label">Password</span>
+          <input id="auth-password" type="password" placeholder="Enter your password" required />
+        </label>
+
+        <button type="submit" class="auth-btn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+          Log In
+        </button>
+      </form>
+
+      <p class="auth-link">
+        Don't have an account? <a href="/signup.html">Sign up</a>
+      </p>
+    </div>
+  </div>
+
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+</body>
+</html>
