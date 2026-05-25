@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="A lightweight code snippet manager — save, search, and organize your code snippets with tags and categories." />
+  <title>SnippetVault — Code Snippet Manager</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <!-- Prism.js syntax highlighting theme (loaded before our CSS so we can override) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- ===== SIDEBAR ===== -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-top">
+      <div class="brand">
+        <div class="brand-logo">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="url(#brandGrad)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <defs><linearGradient id="brandGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#10b981"/><stop offset="100%" stop-color="#06b6d4"/></linearGradient></defs>
+            <polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>
+          </svg>
+        </div>
+        <span class="brand-name">SnippetVault</span>
+      </div>
+      <button class="sidebar-toggle" id="sidebar-close" title="Close sidebar" aria-label="Close sidebar">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="sidebar-nav">
+      <span class="nav-label">Workspace</span>
+      <a class="nav-item active" href="#" data-section="snippets">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        <span>All Snippets</span>
+        <span class="nav-badge" id="snippet-count">0</span>
+      </a>
+      <a class="nav-item" href="#" data-section="add">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <span>Add Snippet</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-divider"></div>
+
+    <!-- Quick Stats -->
+    <div class="sidebar-stats">
+      <span class="nav-label">Quick Stats</span>
+      <div class="stat-card">
+        <div class="stat-icon stat-icon--green">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+        </div>
+        <div class="stat-info">
+          <span class="stat-value" id="stat-total">0</span>
+          <span class="stat-label">Total Snippets</span>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon stat-icon--cyan">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+        </div>
+        <div class="stat-info">
+          <span class="stat-value" id="stat-tags">0</span>
+          <span class="stat-label">Unique Tags</span>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon stat-icon--purple">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        </div>
+        <div class="stat-info">
+          <span class="stat-value" id="stat-langs">0</span>
+          <span class="stat-label">Languages</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sidebar Footer -->
+    <div class="sidebar-footer">
+      <div class="sidebar-actions">
+        <button id="toggle-theme" title="Toggle dark/light">
+          <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+        <button id="export-json" title="Export all snippets">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        </button>
+        <label class="import-label" title="Import snippets JSON">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          <input id="import-json" type="file" accept="application/json" />
+        </label>
+      </div>
+      <div class="sidebar-credit">
+        Built with vanilla HTML, CSS &amp; JS
+      </div>
+    </div>
+  </aside>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <div class="main-wrapper">
+    <!-- Top Bar -->
+    <header class="app-header">
+      <button class="hamburger" id="sidebar-open" title="Open sidebar" aria-label="Open sidebar">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <div class="topbar-left">
+        <h1 class="page-title">Dashboard</h1>
+        <span class="page-subtitle">Manage your code snippets</span>
+      </div>
+      <div class="topbar-right">
+        <div class="search-wrapper">
+          <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input id="search" type="search" placeholder="Search snippets..." />
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="container">
+      <!-- Add / Edit Snippet Form -->
+      <section class="form-card" id="form-section">
+        <div class="form-card-header">
+          <div class="form-card-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          </div>
+          <h2 id="form-title">Add Snippet</h2>
+        </div>
+        <form id="snippet-form">
+          <div class="form-grid">
+            <label class="form-field">
+              <span class="field-label">Title</span>
+              <input id="title" type="text" placeholder="e.g. Debounce Function" required />
+            </label>
+
+            <label class="form-field">
+              <span class="field-label">Language / Category</span>
+              <select id="language">
+                <option value="">(optional)</option>
+                <option>C</option>
+                <option>C++</option>
+                <option>CSS</option>
+                <option>HTML/CSS</option>
+                <option>Java</option>
+                <option>JavaScript</option>
+                <option>Python</option>
+                <option>Shell</option>
+                <option>SQL</option>
+                <option>Other</option>
+              </select>
+            </label>
+          </div>
+
+          <label class="form-field">
+            <span class="field-label">Tags (comma separated)</span>
+            <input id="tags" type="text" placeholder="utilities, array, dom" />
+          </label>
+
+          <label class="form-field">
+            <span class="field-label">Code</span>
+            <textarea id="code" rows="8" placeholder="Paste your code here..." required></textarea>
+          </label>
+
+          <div class="form-actions">
+            <button id="save-btn" type="submit">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              Save Snippet
+            </button>
+            <button id="cancel-edit" type="button" class="hidden">Cancel</button>
+          </div>
+        </form>
+      </section>
+
+      <!-- Snippets Grid -->
+      <section class="snippets-section">
+        <div class="section-header">
+          <h2>Saved Snippets</h2>
+          <div class="section-header-line"></div>
+          <!-- Sort dropdown -->
+          <div class="sort-controls">
+            <svg class="sort-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5h10"/><path d="M11 9h7"/><path d="M11 13h4"/><path d="M3 17l3 3 3-3"/><path d="M6 18V4"/></svg>
+            <select id="sort-select">
+              <option value="newest">Newest First</option>
+              <option value="oldest">Oldest First</option>
+              <option value="alpha">A → Z</option>
+            </select>
+          </div>
+        </div>
+        <!-- Language filter bar -->
+        <div class="lang-filter-bar" id="lang-filter-bar">
+          <button class="lang-filter-btn active" data-lang="">All</button>
+        </div>
+        <!-- Tag filter bar (built dynamically from saved tags) -->
+        <div class="tag-filter-bar" id="tag-filter-bar"></div>
+        <div id="snippets" class="snippets-grid"></div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Prism.js core (includes markup, css, clike, javascript) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <!-- Additional language components -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-cpp.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+
+  <script src="script.js"></script>
+</body>
+</html>
