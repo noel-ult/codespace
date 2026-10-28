@@ -42,3 +42,23 @@ For standalone mode, create/edit/delete a snippet and check persistence after re
 
 - [Source, command, and configuration reference](REFERENCE.md)
 - [Contributing](../CONTRIBUTING.md)
+
+## Request and storage contracts
+
+Send JSON with `Content-Type: application/json`. Protected routes require `Authorization: Bearer <token>`.
+
+| Method/path | Input | Success |
+| --- | --- | --- |
+| POST `/api/auth/signup` | `username`, `email`, `password` | 201 `{token, user: {id, username, email}}` |
+| POST `/api/auth/login` | `email`, `password` | 200 with the same token/user envelope |
+| GET `/api/auth/me` | Bearer token | `{user}` excluding the password |
+| GET `/api/snippets` | Bearer token | `{snippets}` owned by the caller, newest first |
+| POST `/api/snippets` | `title`, `code`; optional `language`, `tags` | 201 `{snippet}` |
+| PUT `/api/snippets/:id` | Any provided snippet fields | `{snippet}` after ownership-scoped update |
+| DELETE `/api/snippets/:id` | Owned document ID | `{message}` |
+
+The User model requires a unique trimmed username (minimum two characters), lowercased unique email, and password of at least six characters. A pre-save hook hashes passwords with bcrypt. Tokens default to seven days; `JWT_EXPIRES_IN` overrides the duration. Snippet requires an owning User ObjectId, trimmed title, and code; language defaults to empty, tags to an empty array, and creation/update dates are stored. Saving updates `updatedAt`.
+
+Missing signup/login fields return 400, invalid login credentials 401, duplicate signup identity 400, and absent or unowned snippet updates/deletes 404. Invalid IDs and model validation errors can reach generic 500 handlers; do not promise a uniform 400 response for every malformed input. Non-array tags become an empty array. The current update handler is partial despite using PUT.
+
+For deployment recovery and acceptance checks, see [verification and operations](OPERATIONS.md).

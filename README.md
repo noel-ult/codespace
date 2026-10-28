@@ -14,3 +14,7 @@ The standalone version needs no backend. The full-stack version requires `MONGOD
 - [Contributing](CONTRIBUTING.md)
 
 The browser interface uses HTML, CSS, and JavaScript. See [LICENSE](LICENSE) for the existing MIT license.
+
+<!-- developer-handbook-20261028 -->
+[Developer guide](docs/PROJECT_GUIDE.md) · [Source reference](docs/REFERENCE.md) · [Verification and operations](docs/OPERATIONS.md)
+<!-- /developer-handbook-20261028 -->
