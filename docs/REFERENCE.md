@@ -1,7 +1,6 @@
 # codespace source reference
 
-
-Source reviewed: [`8dfbeeb1ceef`](https://github.com/noel-ult/codespace/commit/8dfbeeb1ceefcf544d20edbf065231999d80b9fe).
+Source reviewed: [`ee93b30869d5`](https://github.com/noel-ult/codespace/commit/ee93b30869d54147a806d7eec616b8d38aaffbb3).
 
 This reference records the checked-in source, scripts, configuration names, and route declarations. It is a navigation aid; service availability and successful test execution require separate verification.
 
@@ -48,7 +47,10 @@ Paths are **as declared in each source file**. Router/blueprint mount prefixes f
 
 Historical plans/reports describe their own revision; use current source when they disagree.
 
+- [CONTRIBUTING.md](../CONTRIBUTING.md)
 - [README.md](../README.md)
+- [docs/PROJECT_GUIDE.md](../docs/PROJECT_GUIDE.md)
+- [docs/REFERENCE.md](../docs/REFERENCE.md)
 
 ## Source and configuration map
 
